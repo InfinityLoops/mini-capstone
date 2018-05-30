@@ -5,6 +5,8 @@ class Api::OrdersController < ApplicationController
                        product_id: params[:product_id],
                        quantity: params[:quantity]
                       )
+    
+    @order.calculate_totals
     @order.save
     render 'show.json.jbuilder'
   end
