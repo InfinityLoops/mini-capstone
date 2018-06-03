@@ -1,5 +1,11 @@
 class Api::CartedProductsController < ApplicationController
-  def create
+    def index
+        # @carted_products = CartedProduct.where(user_id: current_user.id, status: "carted")
+        @carted_products = current_user.carted_products.where(status: "carted")
+        render 'index.json.jbuilder'
+    end
+
+    def create
     @carted_product = CartedProduct.new(
                                         user_id: current_user.id,
                                         product_id: params[:product_id],
@@ -8,5 +14,5 @@ class Api::CartedProductsController < ApplicationController
                                         )
     @carted_product.save
     render 'show.json.jbuilder'
-  end
+    end
 end
