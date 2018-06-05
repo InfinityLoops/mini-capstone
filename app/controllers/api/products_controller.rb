@@ -1,4 +1,6 @@
 class Api::ProductsController < ApplicationController
+  before_action :authenticate_admin, only: [:create, :update, :destroy]
+
   def index
     @products = Product.all
 
@@ -34,21 +36,17 @@ class Api::ProductsController < ApplicationController
   end
 
   def create
-    if current_user && current_user.admin
-      @product = Product.new(
-                             name: params[:name],
-                             price: params[:price],
-                             description: params[:description],
-                             supplier_id: params[:supplier_id]
-                            )
+    @product = Product.new(
+                           name: params[:name],
+                           price: params[:price],
+                           description: params[:description],
+                           supplier_id: params[:supplier_id]
+                          )
 
-      if @product.save
-        render 'show.json.jbuilder'
-      else
-        render json: {errors: @product.errors.full_messages}, status: :unprocessable_entity
-      end
+    if @product.save
+      render 'show.json.jbuilder'
     else
-      render json: {}, status: :unauthorized
+      render json: {errors: @product.errors.full_messages}, status: :unprocessable_entity
     end
   end
 

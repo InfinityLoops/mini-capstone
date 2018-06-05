@@ -1,4 +1,6 @@
 class Api::OrdersController < ApplicationController
+  before_action :authenticate_user
+
   def create
     @order = Order.create(user_id: current_user.id)
     @order.calculate_cart

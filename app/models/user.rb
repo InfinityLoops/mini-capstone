@@ -2,8 +2,6 @@ class User < ApplicationRecord
   validates :email, presence: true
   validates :email, uniqueness: true
   validates :name, presence: true
-  validates :password, presence: true
-  validates :password, length: { in: 6..10 }
 
   has_secure_password
   has_many :carted_products
